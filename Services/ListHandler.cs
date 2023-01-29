@@ -38,6 +38,16 @@ namespace ToDoAPI.Services
             return list;
         }
 
+
+        public CreateToDoList DeleteList(Guid id)   //Funkar
+        {
+
+            //var listID = Guid.Parse(ListDictionary.id["ListId"]);
+            var deleteList = _dbContext.ToDoLists.FirstOrDefault(x => x.Id == id);
+            _dbContext.Remove(deleteList);
+            _dbContext.SaveChanges();
+            return deleteList;
+        }
         //public void DeleteList(Guid? id)
         //{
         //    if (id == null)

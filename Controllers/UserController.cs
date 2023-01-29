@@ -35,10 +35,6 @@ namespace ToDoAPI.Controllers
         public IActionResult CreateUser()                                          //Funkar
         {
             var user = Request.ReadFromJsonAsync<CreateUser>().Result;
-
-            //return Ok(_userHandler.CreateUser(newUser));
-
-
             try
             {
                 return Ok(_userHandler.CreateUser(user));

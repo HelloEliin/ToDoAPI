@@ -63,12 +63,12 @@ namespace ToDoAPI.Controllers
             return Ok(_listHandler.EditList(listTitle)); 
         }
 
-        //[HttpDelete("DeleteList")]
-        //public IActionResult Delete(Guid? id)
-        //{
-        //    _listHandler.DeleteList(id);
-        //    return Ok();   
-        //}
+        [HttpDelete("DeleteList/{id}")]
+        public IActionResult Delete(Guid id)
+        {
+            _listHandler.DeleteList(id);
+            return Ok();
+        }
 
 
         [HttpPut("WeeklyList")]

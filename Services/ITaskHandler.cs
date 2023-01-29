@@ -5,15 +5,15 @@ namespace ToDoAPI.Services
 {
     public interface ITaskHandler
     {
-        CreateToDoList AddTask(Task task);
+        CreateToDoList AddTask(Task task);  //Funkar
         IEnumerable<Task> GetTasks(Guid id);
-        Task EditTaskName (string title);
+        Task UpdateTask(Task task);
         Task GetSingelTask(Guid id);
 
-        Task MarkAsComplete(bool completed);
+        Task MarkAsComplete(Task task);
         //CreateToDoList CreateNewToDoList(string listTitle);
         //IEnumerable<CreateToDoList> GetLists();
-        Task DeleteTask(Guid id);
+        Task DeleteTask(Guid id); //Funkar
         //CreateToDoList ChangeTaskName(int id, string value);
     }
 }

@@ -14,7 +14,7 @@ namespace ToDoAPI.Services
             _dbContext = dbContext;
         }
 
-        public CreateToDoList AddTask(Task task)   
+        public CreateToDoList AddTask(Task task)   //Klart
         {
             var listID = Guid.Parse(ListDictionary.id["ListId"]);
             _dbContext.Task.Add(task);
@@ -23,23 +23,22 @@ namespace ToDoAPI.Services
         }
 
 
-        public IEnumerable<Task> GetTasks(Guid id)
+        public IEnumerable<Task> GetTasks(Guid id) //Vet ej om de behövs 
         {
             var tasks = _dbContext.Task.Where(x => x.CreateToDoListId == id);
             return tasks;
         }
 
-        public Task EditTaskName(string taskTitle)
+        public Task UpdateTask(Task task)  //klart
         {
-            var taskId = Guid.Parse(ListDictionary.id["TaskId"]);
-            var task = _dbContext.Task.FirstOrDefault(x => x.Id == taskId);
-            task.TaskTitle = taskTitle;
+            var editTask = _dbContext.Task.FirstOrDefault(x => x.Id == task.Id);
+            editTask.TaskTitle = task.TaskTitle;
             _dbContext.SaveChanges();
             return task;
         }
 
-        
-        public Task DeleteTask(Guid id) //Här fick jag inte sätta props för då gick de inte o deleta den direkt i blazor
+
+        public Task DeleteTask(Guid id) //KLar
         {
             var listID = Guid.Parse(ListDictionary.id["ListId"]);
             var deleteTask = _dbContext.Task.FirstOrDefault(x => x.Id == id);
@@ -50,17 +49,17 @@ namespace ToDoAPI.Services
 
         public Task GetSingelTask(Guid id) //oklart om den ens behlvs
         {
-            ListDictionary.id["TaskId"] = id.ToString();
+            //ListDictionary.id["TaskId"] = id.ToString();
             var task = _dbContext.Task.FirstOrDefault(x => x.Id == id);
             return task;
         }
 
 
-        public Task MarkAsComplete(bool completed)
+        public Task MarkAsComplete(Task task)  //klar
         {
-            var taskId = Guid.Parse(ListDictionary.id["TaskId"]);
-            var task = _dbContext.Task.FirstOrDefault(x => x.Id == taskId);
-            task.Completed = !task.Completed;
+
+            var theTask = _dbContext.Task.FirstOrDefault(x => x.Id == task.Id);
+            theTask.Completed = true;
             _dbContext.SaveChanges();
             return task;
         }

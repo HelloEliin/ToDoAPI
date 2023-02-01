@@ -130,15 +130,15 @@ namespace ToDoAPI.Controllers
             }
             catch (Exception e) when (e.InnerException is InvalidOperationException)
             {
-                return BadRequest("Username and Password is required");
+                return BadRequest("Finns ingen");
             }
             catch (Exception e) when (e.InnerException is UnauthorizedAccessException)
             {
-                return BadRequest("Invalid login");
+                return BadRequest("tjogo");
             }
             catch (Exception)
             {
-                return BadRequest("Something went wrong with creating the token");
+                return BadRequest("Son");
             }
 
 

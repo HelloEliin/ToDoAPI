@@ -31,11 +31,11 @@ namespace ToDoAPI.Controllers
             return Ok(_listHandler.ViewOneList(id));
         }
 
-        [HttpGet("ViewSingleList")]
-        public IActionResult GetRecentViewedList()   // funkar
-        {
-            return Ok(_listHandler.GetRecentViewedList());
-        }
+        //[HttpGet("ViewSingleList")]
+        //public IActionResult GetRecentViewedList()   // funkar
+        //{
+        //    return Ok(_listHandler.GetRecentViewedList());
+        //}
 
         [HttpPost("CreateNewToDoList")]  //Funkar
         public IActionResult CreateNewToDoList(CreateToDoList list)
@@ -58,16 +58,16 @@ namespace ToDoAPI.Controllers
         }
 
         [HttpPut("EditList")]
-        public IActionResult Put(string listTitle)
+        public IActionResult Put(CreateToDoList list)
         {
-            return Ok(_listHandler.EditList(listTitle)); 
+            return Ok(_listHandler.UpdateList(list)); 
         }
 
         [HttpDelete("DeleteList/{id}")]
         public IActionResult Delete(Guid id)
         {
-            _listHandler.DeleteList(id);
-            return Ok();
+           
+            return Ok(_listHandler.DeleteList(id));
         }
 
 

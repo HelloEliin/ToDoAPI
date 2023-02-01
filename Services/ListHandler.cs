@@ -17,18 +17,12 @@ namespace ToDoAPI.Services
             _dbContext = dbContext;
         }
 
-        public Guid GetRecentViewedList()    //Funkar
-        {
-            Guid listId = Guid.Parse(ListDictionary.id["ListId"]);
-            return listId;
-        }
-
-        public IEnumerable<CreateToDoList> GetLists()    //Funkar
+        public IEnumerable<CreateToDoList> GetLists()    
         {
             return _dbContext.ToDoLists.ToList();
         }
 
-        public CreateToDoList CreateNewToDoList(CreateToDoList list) // nya, funkar
+        public CreateToDoList CreateNewToDoList(CreateToDoList list) 
         {
             ListDictionary.id["ListId"] = list.Id.ToString();
             Guid listId = Guid.Parse(ListDictionary.id["ListId"]);
@@ -39,52 +33,33 @@ namespace ToDoAPI.Services
         }
 
 
-        public CreateToDoList DeleteList(Guid id)   //Funkar
+        public CreateToDoList DeleteList(Guid id)   
         {
-
-            //var listID = Guid.Parse(ListDictionary.id["ListId"]);
             var deleteList = _dbContext.ToDoLists.FirstOrDefault(x => x.Id == id);
             _dbContext.Remove(deleteList);
             _dbContext.SaveChanges();
             return deleteList;
         }
-        //public void DeleteList(Guid? id)
-        //{
-        //    if (id == null)
-        //    {
 
-        //        var selectedList = _dbContext.ToDoLists.FirstOrDefault(x => x.Id == listID);
-        //        _dbContext.ToDoLists.Remove(selectedList);
-        //        _dbContext.SaveChanges();
-        //        return;
-        //    }
-        //    else
-        //    {
-        //        var selectedList = _dbContext.ToDoLists.FirstOrDefault(x => x.Id == id);
-        //        _dbContext.ToDoLists.Remove(selectedList);
-        //        _dbContext.SaveChanges();
-        //        return;
-        //    }
-        //}
-
-        public CreateToDoList EditList(string listTitle)
+        public CreateToDoList UpdateList(CreateToDoList list)
         {
             var listID = Guid.Parse(ListDictionary.id["ListId"]);
-            var list = _dbContext.ToDoLists.FirstOrDefault(x => x.Id == listID);
-            list.ListTitle = listTitle;            
+            var updatedList = _dbContext.ToDoLists.FirstOrDefault(x => x.Id == listID);
+            updatedList.ListTitle = list.ListTitle;
+            updatedList.ThisWeek = list.ThisWeek;   
             _dbContext.SaveChanges();
             return list;
         }
 
 
-        public CreateToDoList ViewOneList(Guid id)   //Funkar
+        public CreateToDoList ViewOneList(Guid id)   
         {
             ListDictionary.id["ListId"] = id.ToString();
             var list = _dbContext.ToDoLists.Include(x => x.Task).FirstOrDefault(x => x.Id == id);
             return list;
         }
 
-        public IEnumerable<CreateToDoList> GetCurrentUsersLists()   //Funkar, slår unreq
+        public IEnumerable<CreateToDoList> GetCurrentUsersLists()  
         {
             var userId = Guid.Parse(UserDictionary.userId["UserId"]);
             var lists = _dbContext.ToDoLists.Where(x => x.CreateUserId == userId).ToList();

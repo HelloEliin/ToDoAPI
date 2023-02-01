@@ -14,7 +14,7 @@ namespace ToDoAPI.Services
             _dbContext = dbContext;
         }
 
-        public CreateToDoList AddTask(Task task)   //Klart
+        public CreateToDoList AddTask(Task task)   
         {
             var listID = Guid.Parse(ListDictionary.id["ListId"]);
             _dbContext.Task.Add(task);
@@ -29,7 +29,7 @@ namespace ToDoAPI.Services
             return tasks;
         }
 
-        public Task UpdateTask(Task task)  //klart
+        public Task UpdateTask(Task task)  
         {
             var editTask = _dbContext.Task.FirstOrDefault(x => x.Id == task.Id);
             editTask.TaskTitle = task.TaskTitle;
@@ -38,7 +38,7 @@ namespace ToDoAPI.Services
         }
 
 
-        public Task DeleteTask(Guid id) //KLar
+        public Task DeleteTask(Guid id)
         {
             var listID = Guid.Parse(ListDictionary.id["ListId"]);
             var deleteTask = _dbContext.Task.FirstOrDefault(x => x.Id == id);
@@ -47,21 +47,20 @@ namespace ToDoAPI.Services
             return deleteTask;
         }
 
-        public Task GetSingelTask(Guid id) //oklart om den ens behlvs
+        public Task GetSingelTask(Guid id) 
         {
-            //ListDictionary.id["TaskId"] = id.ToString();
             var task = _dbContext.Task.FirstOrDefault(x => x.Id == id);
             return task;
         }
 
 
-        public Task MarkAsComplete(Task task)  //klar
+        public Task MarkAsComplete(Task task)  
         {
 
             var theTask = _dbContext.Task.FirstOrDefault(x => x.Id == task.Id);
-            theTask.Completed = true;
+            theTask.Completed = !theTask.Completed;
             _dbContext.SaveChanges();
-            return task;
+            return theTask;
         }
 
 

@@ -51,7 +51,6 @@ namespace ToDoAPI.Services
             return list;
         }
 
-
         public CreateToDoList ViewOneList(Guid id)   
         {
             ListDictionary.id["ListId"] = id.ToString();
@@ -62,25 +61,57 @@ namespace ToDoAPI.Services
         public IEnumerable<CreateToDoList> GetCurrentUsersLists()  
         {
             var userId = Guid.Parse(UserDictionary.userId["UserId"]);
-            var lists = _dbContext.ToDoLists.Where(x => x.CreateUserId == userId).ToList();
+            var lists = _dbContext.ToDoLists.Include(x => x.Task).Where(x => x.CreateUserId == userId).ToList();
             return lists;
         }
 
-
-        public CreateToDoList WeeklyList(Guid? id)
+        public IEnumerable<CreateToDoList> GetWeekly()
         {
-            if(id == null)
+
+            var userId = Guid.Parse(UserDictionary.userId["UserId"]);
+            List<CreateToDoList> weeklyLists = new();                                                          //nytt härifrån
+            var list = _dbContext.ToDoLists.Include(x => x.Task).Where(x => x.CreateUserId == userId).Where(x => x.ThisWeek == true);
+
+            foreach (var l in list)
             {
-                id = Guid.Parse(ListDictionary.id["ListId"]);
+               weeklyLists.Add(l);
             }
-            var list = _dbContext.ToDoLists.FirstOrDefault(x => x.Id == id);
-            list.ThisWeek = true;
             _dbContext.SaveChanges();
-            return list;
+            return weeklyLists;
         }
 
 
 
+        public IEnumerable<CreateToDoList>? GetExpiredLists()
+        {
+            var userId = Guid.Parse(UserDictionary.userId["UserId"]);
+            try
+            {
+                List<CreateToDoList> expired = new();
+                var usersLists = _dbContext.ToDoLists.Where(x => x.CreateUserId == userId);
+                foreach (var list in usersLists)
+                {
+                    DateTime start = DateTime.Parse(list.Date);
+                    DateTime expiry = start.AddDays(7);
+                    TimeSpan span = start - expiry;
+
+                    if (DateTime.Now > expiry)
+                    {
+                        list.Expired = true;
+                        list.ThisWeek = false;
+                        expired.Add(list);
+                    }
+                }
+
+                _dbContext.SaveChanges();
+                return expired;
+            }
+            catch(Exception)
+            {
+                return null;
+            }
+          
+        }
 
     }
 }

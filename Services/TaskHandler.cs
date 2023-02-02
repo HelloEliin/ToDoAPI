@@ -22,8 +22,7 @@ namespace ToDoAPI.Services
             return _dbContext.ToDoLists.Include(x => x.Task).FirstOrDefault(x => x.Id == listID);
         }
 
-
-        public IEnumerable<Task> GetTasks(Guid id) //Vet ej om de behövs 
+        public IEnumerable<Task> GetTasks(Guid id) //oklart om den ska finnas
         {
             var tasks = _dbContext.Task.Where(x => x.CreateToDoListId == id);
             return tasks;
@@ -36,7 +35,6 @@ namespace ToDoAPI.Services
             _dbContext.SaveChanges();
             return task;
         }
-
 
         public Task DeleteTask(Guid id)
         {
@@ -56,7 +54,6 @@ namespace ToDoAPI.Services
 
         public Task MarkAsComplete(Task task)  
         {
-
             var theTask = _dbContext.Task.FirstOrDefault(x => x.Id == task.Id);
             theTask.Completed = !theTask.Completed;
             _dbContext.SaveChanges();

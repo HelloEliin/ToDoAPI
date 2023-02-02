@@ -71,6 +71,32 @@ namespace ToDoAPI.Controllers
         }
 
 
+        [AllowAnonymous]
+        [HttpPut("LogOut")] 
+        public IActionResult LogOut()
+        {
+            var user = Request.ReadFromJsonAsync<CreateUser>().Result;
+
+            try
+            {
+                return Ok(_userHandler.LogOut(user));
+            }
+            catch (Exception e) when (e.InnerException is InvalidOperationException)
+            {
+                return BadRequest("Username and Password is required");
+            }
+            catch (Exception e) when (e.InnerException is UnauthorizedAccessException)
+            {
+                return BadRequest("Invalid login");
+            }
+            catch (Exception)
+            {
+                return BadRequest("Something went wrong with creating the token");
+            }
+
+        }
+
+
         [HttpGet("ShowUser/{id}")] //Funkar
         public IActionResult Get(Guid id)
         {
@@ -90,8 +116,16 @@ namespace ToDoAPI.Controllers
         [HttpPut("EditProfile")]  //Funkar
         public IActionResult EditProfile()
         {
-            var user = Request.ReadFromJsonAsync<CreateUser>().Result;
-            return Ok(_userHandler.EditProfile(user));
+            try
+            {
+                var user = Request.ReadFromJsonAsync<CreateUser>().Result;
+                return Ok(_userHandler.EditProfile(user));
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
 
         }
 

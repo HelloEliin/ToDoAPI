@@ -25,30 +25,42 @@ namespace ToDoAPI.Controllers
             _dbContext = context;
         }
 
-        [HttpGet("ShowList/{id}")]  //Funkar
+        [HttpGet("ShowList/{id}")]  
         public IActionResult Get(Guid id)
         {
             return Ok(_listHandler.ViewOneList(id));
         }
 
-        //[HttpGet("ViewSingleList")]
-        //public IActionResult GetRecentViewedList()   // funkar
-        //{
-        //    return Ok(_listHandler.GetRecentViewedList());
-        //}
 
-        [HttpPost("CreateNewToDoList")]  //Funkar
+        [HttpPost("CreateNewToDoList")] 
         public IActionResult CreateNewToDoList(CreateToDoList list)
         {
             return Ok(_listHandler.CreateNewToDoList(list));
         }
 
 
-        [HttpGet("GetAllLists")]  //Funkar
+        [HttpGet("GetAllLists")] 
         public IActionResult Get()
         {
           
             return Ok(_listHandler.GetLists());
+        }
+
+
+
+        [HttpGet("GetWeeklyLists")]  
+        public IActionResult GetFinishedLists()
+        {
+
+            return Ok(_listHandler.GetWeekly());
+        }
+
+
+        [HttpGet("GetExpiredLists")]
+        public IActionResult GetExpiredLists()
+        {
+
+            return Ok(_listHandler.GetExpiredLists());
         }
 
         [HttpGet("GetCurrentUsersLists")]
@@ -71,12 +83,6 @@ namespace ToDoAPI.Controllers
         }
 
 
-        [HttpPut("WeeklyList")]
-        public IActionResult WeeklyList(Guid? id)
-        {
-
-            return Ok(_listHandler.WeeklyList(id));
-        }
 
 
 

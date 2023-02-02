@@ -12,7 +12,6 @@ namespace ToDoAPI.Services
             _dbContext = dbContext;
         }
 
-
         public CreateUser CreateUser(CreateUser user)  
         {
             _dbContext.Add(user);
@@ -40,7 +39,7 @@ namespace ToDoAPI.Services
 
         public CreateUser EditProfile(CreateUser user)    
         {
-            CreateUser theUser = _dbContext.User.FirstOrDefault(x => x.UserName == user.UserName);
+            CreateUser theUser = _dbContext.User.FirstOrDefault(x => x.Id == user.Id);
             theUser.FirstName = user.FirstName ?? theUser.FirstName;
             theUser.LastName = user.LastName ?? theUser.LastName;
             theUser.Email = user.Email ?? theUser.Email;
@@ -51,11 +50,19 @@ namespace ToDoAPI.Services
         }
 
 
-        public CreateUser Authenticate(CreateUser user)        
+        public CreateUser? Authenticate(CreateUser? user)
         {
-            var theUser = _dbContext.User.SingleOrDefault(x => x.UserName == user.UserName && x.Password == user.Password);
-            UserDictionary.userId["UserId"] = theUser.Id.ToString(); 
-            return theUser;
+            try
+            {
+                var theUser = _dbContext.User.SingleOrDefault(x => x.UserName == user.UserName && x.Password == user.Password);
+                UserDictionary.userId["UserId"] = theUser.Id.ToString();   //krasch om fel
+                return theUser;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
         }
 
         public CreateUser ChangeAccess(CreateUser user)
@@ -70,10 +77,13 @@ namespace ToDoAPI.Services
         {
             var currentUserId = Guid.Parse(UserDictionary.userId["UserId"]);
             var theUser = _dbContext.User.SingleOrDefault(x => x.Id == currentUserId);
-
             return theUser;
         }
 
-
+        public CreateUser LogOut(CreateUser user)
+        {
+            UserDictionary.userId["UserId"] = "";
+            return user;
+        }
     }
 }

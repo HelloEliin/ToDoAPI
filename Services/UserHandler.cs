@@ -14,6 +14,12 @@ namespace ToDoAPI.Services
 
         public CreateUser CreateUser(CreateUser user)  
         {
+            var alreadyExists = _dbContext.User.Any(x => x.UserName == user.UserName);
+            if (alreadyExists)
+            {
+                throw new Exception();
+            }
+
             _dbContext.Add(user);
             _dbContext.SaveChanges();
             return user;

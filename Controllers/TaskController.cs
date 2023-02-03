@@ -18,39 +18,74 @@ namespace ToDoAPI.Controllers
 
         }
 
-        [HttpPost("AddTask")]    //Funkar
+        [HttpPost("AddTask")]    
         public IActionResult AddTask(ToDoAPI.Models.Task task)
         {
-            return Ok(_taskHandler.AddTask(task));
+           
+            try
+            {
+                return Ok(_taskHandler.AddTask(task));
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
-        [HttpPost("GetTasks")]  //Oklart om den behöcs
+        [HttpPost("GetTasks")] 
         public IActionResult GetTasks(Guid id)
-        {
-            return Ok(_taskHandler.GetTasks(id));
+        {   
+            try
+            {
+                return Ok(_taskHandler.GetTasks(id));
+            }
+            catch (Exception)
+            { 
+                return BadRequest();
+            }
         }
 
-        [HttpPut("UpdateTask")]  //Funkar
+        [HttpPut("UpdateTask")]
         public IActionResult EditTaskName(ToDoAPI.Models.Task task)
-        {
-            return Ok(_taskHandler.UpdateTask(task));
+        {           
+            try
+            {
+                return Ok(_taskHandler.UpdateTask(task));
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
 
-        [HttpGet("GetSingleTask/{id}")]  //Funkar 
+        [HttpGet("GetSingleTask/{id}")]
         public IActionResult Get(Guid id)
         {
-            return Ok(_taskHandler.GetSingelTask(id));
+            try
+            {
+                return Ok(_taskHandler.GetSingelTask(id));
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
-        [HttpDelete("DeleteTask/{id}")]  //Funkar
+        [HttpDelete("DeleteTask/{id}")]  
         public IActionResult DeleteTask(Guid id)
         {
-           
-            return Ok(_taskHandler.DeleteTask(id));
+            try
+            {
+                return Ok(_taskHandler.DeleteTask(id));
+            }
+            catch (Exception)
+            {
+               return BadRequest();
+            }
         }
 
-        [HttpPut("Completed")]   //Funkar
+        [HttpPut("Completed")]   
         public IActionResult MarkAsComplete()
         {
             var task = Request.ReadFromJsonAsync<ToDoAPI.Models.Task>().Result;
@@ -61,15 +96,7 @@ namespace ToDoAPI.Controllers
             }
             catch (Exception e) when (e.InnerException is InvalidOperationException)
             {
-                return BadRequest("Username and Password is required");
-            }
-            catch (Exception e) when (e.InnerException is UnauthorizedAccessException)
-            {
-                return BadRequest("Invalid login");
-            }
-            catch (Exception)
-            {
-                return BadRequest("Something went wrong with creating the token");
+                return BadRequest();
             }
           
         }

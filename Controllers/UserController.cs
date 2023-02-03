@@ -24,50 +24,33 @@ namespace ToDoAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost("CreateUser")]
-        public IActionResult CreateUser()                                          //Funkar
+        public IActionResult CreateUser()                                         
         {
             var user = Request.ReadFromJsonAsync<CreateUser>().Result;
             try
             {
                 return Ok(_userHandler.CreateUser(user));
             }
-            catch (Exception e) when (e.InnerException is InvalidOperationException)
-            {
-                return BadRequest("Username and Password is required");
-            }
-            catch (Exception e) when (e.InnerException is UnauthorizedAccessException)
-            {
-                return BadRequest("Invalid login");
-            }
             catch (Exception)
             {
-                return BadRequest("Something went wrong with creating the token");
+                return BadRequest();
             }
         }
 
 
 
         [AllowAnonymous]
-        [HttpDelete("DeleteUser/{id}")]  //Funkar
+        [HttpDelete("DeleteUser/{id}")]  
         public IActionResult DeleteUser(Guid id)
         {
             try
             {
                 return Ok(_userHandler.DeleteUser(id));
             }
-            catch (Exception e) when (e.InnerException is InvalidOperationException)
-            {
-                return BadRequest("Username and Password is required");
-            }
-            catch (Exception e) when (e.InnerException is UnauthorizedAccessException)
-            {
-                return BadRequest("Invalid login");
-            }
             catch (Exception)
             {
-                return BadRequest("Something went wrong with creating the token");
+                return BadRequest();
             }
-
         }
 
 
@@ -76,36 +59,33 @@ namespace ToDoAPI.Controllers
         public IActionResult LogOut()
         {
             var user = Request.ReadFromJsonAsync<CreateUser>().Result;
-
             try
             {
                 return Ok(_userHandler.LogOut(user));
             }
-            catch (Exception e) when (e.InnerException is InvalidOperationException)
-            {
-                return BadRequest("Username and Password is required");
-            }
-            catch (Exception e) when (e.InnerException is UnauthorizedAccessException)
-            {
-                return BadRequest("Invalid login");
-            }
             catch (Exception)
             {
-                return BadRequest("Something went wrong with creating the token");
+                return BadRequest();
             }
-
         }
 
 
-        [HttpGet("ShowUser/{id}")] //Funkar
+        [HttpGet("ShowUser/{id}")]
         public IActionResult Get(Guid id)
         {
-            return Ok(_userHandler.GetOneUser(id));
+            try
+            {
+                return Ok(_userHandler.GetOneUser(id));
+            }
+            catch(Exception)
+            {
+                return BadRequest(); 
+            }
         }
 
 
         [AllowAnonymous]
-        [HttpGet("GetAllUsers")] //Funkar
+        [HttpGet("GetAllUsers")] 
         public IActionResult Get()
         {
             return Ok(_userHandler.GetUsers());
@@ -113,7 +93,7 @@ namespace ToDoAPI.Controllers
 
 
         [AllowAnonymous]
-        [HttpPut("EditProfile")]  //Funkar
+        [HttpPut("EditProfile")] 
         public IActionResult EditProfile()
         {
             try
@@ -125,8 +105,6 @@ namespace ToDoAPI.Controllers
             {
                 return BadRequest();
             }
-
-
         }
 
 
@@ -140,42 +118,22 @@ namespace ToDoAPI.Controllers
             }
             catch (Exception e) when (e.InnerException is InvalidOperationException)
             {
-                return BadRequest("Username and Password is required");
+                return BadRequest();
             }
-            catch (Exception e) when (e.InnerException is UnauthorizedAccessException)
-            {
-                return BadRequest("Invalid login");
-            }
-            catch (Exception)
-            {
-                return BadRequest("Something went wrong with creating the token");
-            }
-
         }
 
         [AllowAnonymous]
         [HttpGet("GetCurrentUser")]
         public IActionResult GetCurrentUser()
         {
-
             try
             {
                 return Ok(_userHandler.GetCurrentUser());
             }
             catch (Exception e) when (e.InnerException is InvalidOperationException)
             {
-                return BadRequest("Finns ingen");
+                return BadRequest();
             }
-            catch (Exception e) when (e.InnerException is UnauthorizedAccessException)
-            {
-                return BadRequest("tjogo");
-            }
-            catch (Exception)
-            {
-                return BadRequest("Son");
-            }
-
-
         }
 
 
@@ -186,7 +144,6 @@ namespace ToDoAPI.Controllers
         public IActionResult Login()
         {
             var user = Request.ReadFromJsonAsync<CreateUser>().Result;
-
             try
             {
                 return Ok(_userHandler.Authenticate(user));
@@ -203,8 +160,6 @@ namespace ToDoAPI.Controllers
             {
                 return BadRequest("Something went wrong with creating the token");
             }
-
-
         }
 
 

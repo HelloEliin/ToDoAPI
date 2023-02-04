@@ -11,7 +11,7 @@ namespace ToDoAPI.Services
         CreateUser ChangeAccess(CreateUser user);
         CreateUser EditProfile(CreateUser user);   
         CreateUser Authenticate(CreateUser user);     
-        CreateUser GetCurrentUser();
+        CreateUser GetCurrentUser(Guid currentUserId);
         CreateUser LogOut(CreateUser user);
     }
 }

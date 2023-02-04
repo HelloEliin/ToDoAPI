@@ -128,7 +128,8 @@ namespace ToDoAPI.Controllers
         {
             try
             {
-                return Ok(_userHandler.GetCurrentUser());
+                var currentUserId = Guid.Parse(UserDictionary.userId["UserId"]);
+                return Ok(_userHandler.GetCurrentUser(currentUserId));
             }
             catch (Exception e) when (e.InnerException is InvalidOperationException)
             {

@@ -79,9 +79,9 @@ namespace ToDoAPI.Services
             return updatedUser;
         }
 
-        public CreateUser GetCurrentUser()
+        public CreateUser GetCurrentUser(Guid currentUserId)
         {
-            var currentUserId = Guid.Parse(UserDictionary.userId["UserId"]);
+           
             var theUser = _dbContext.User.SingleOrDefault(x => x.Id == currentUserId);
             return theUser;
         }

@@ -92,7 +92,7 @@ namespace ToDoAPI.Services
                 foreach (var list in usersLists)
                 {
                     DateTime start = DateTime.Parse(list.Date);
-                    DateTime expiry = start.AddSeconds(7);
+                    DateTime expiry = start.AddDays(7);
                     TimeSpan span = start - expiry;
 
                     if (DateTime.Now > expiry)

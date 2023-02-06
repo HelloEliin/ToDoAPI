@@ -6,7 +6,6 @@ using ToDoAPI.Services;
 
 namespace ToDoAPI.Controllers
 {
-    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : Controller
@@ -39,7 +38,7 @@ namespace ToDoAPI.Controllers
 
 
 
-        [AllowAnonymous]
+
         [HttpDelete("DeleteUser/{id}")]  
         public IActionResult DeleteUser(Guid id)
         {
@@ -53,8 +52,6 @@ namespace ToDoAPI.Controllers
             }
         }
 
-
-        [AllowAnonymous]
         [HttpPut("LogOut")] 
         public IActionResult LogOut()
         {
@@ -83,16 +80,12 @@ namespace ToDoAPI.Controllers
             }
         }
 
-
-        [AllowAnonymous]
         [HttpGet("GetAllUsers")] 
         public IActionResult Get()
         {
             return Ok(_userHandler.GetUsers());
         }
 
-
-        [AllowAnonymous]
         [HttpPut("EditProfile")] 
         public IActionResult EditProfile()
         {
@@ -122,7 +115,6 @@ namespace ToDoAPI.Controllers
             }
         }
 
-        [AllowAnonymous]
         [HttpGet("GetCurrentUser")]
         public IActionResult GetCurrentUser()
         {
@@ -136,9 +128,6 @@ namespace ToDoAPI.Controllers
                 return BadRequest();
             }
         }
-
-
-
 
         [AllowAnonymous]
         [HttpPost("LogIn")]

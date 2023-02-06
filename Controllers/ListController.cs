@@ -9,7 +9,6 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 
 namespace ToDoAPI.Controllers
 {
-    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class ListController : ControllerBase

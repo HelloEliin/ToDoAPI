@@ -4,7 +4,6 @@ using ToDoAPI.Services;
 
 namespace ToDoAPI.Controllers
 {
-    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class TaskController : ControllerBase
